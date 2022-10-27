@@ -1,19 +1,8 @@
 import { prisma } from './prismaClient';
+import { createUserSeed } from './seeds/userSeed';
 
 async function main() {
-  const userSeed = await prisma.user.createMany({
-    data: [
-      {
-        email: 'alice@prisma.io',
-        name: 'Alice',
-      },
-      {
-        email: 'bob@prisma.io',
-        name: 'Bob',
-      },
-    ],
-  });
-  console.log(userSeed);
+  await createUserSeed();
 }
 main()
   .then(async () => {
