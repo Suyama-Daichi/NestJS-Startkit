@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
     - uses: actions/checkout@v3
@@ -36,10 +38,7 @@ jobs:
         cache-dependency-path: # optional
 
     - name: Test
-      env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
       run: |
-        echo ${{ secrets.DATABASE_URL }} | sed 's/./& /g'
         npm install -g yarn
         yarn install
         yarn up:db
