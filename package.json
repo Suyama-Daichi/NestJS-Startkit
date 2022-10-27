@@ -10,7 +10,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "seed": "yarn prisma migrate dev && yarn prisma db seed",
-    "up:db": "docker compose up -d && sleep 5 && yarn seed",
+    "up:db": "DATABASE_URL=postgresql://prisma:prisma@localhost:5433/tests?schema=public docker compose up -d && sleep 5 && yarn seed",
     "down:db": "docker-compose down",
     "start": "nest start",
     "start:dev": "nest start --watch",
