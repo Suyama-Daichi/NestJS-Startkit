@@ -1,15 +1,17 @@
-name: Docker Image CI
+name: NestJS Testing CI
 
 on:
   pull_request:
     types:
       - opened
-    branches: [ "feature/**, fix/**" ]
+      - reopened
+      - ready_for_review
+    branches:
+      - 'feature/**'
+      -  'fix/**'
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
