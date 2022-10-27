@@ -9,14 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - run: |
-        echo '4' ${{ github.head_ref }}
     - uses: actions/checkout@v3
       with:
         ref: ${{ github.head_ref }}
     - name: Run docker container
-      run: echo '2' ${{ github.head_ref }}
-      # run: docker compose up -d
+      run: docker compose up -d
 
     - name: Setup Node.js environment
       uses: actions/setup-node@v3.5.1
