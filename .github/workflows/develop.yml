@@ -2,13 +2,10 @@ name: NestJS Testing CI
 
 on:
   pull_request:
-    types:
-      - opened
-      - reopened
-      - ready_for_review
+    types: [ opened, synchronize, reopened, ready_for_review ]
     branches:
       - 'feature/**'
-      -  'fix/**'
+      - 'fix/**'
 
 jobs:
   build:
@@ -16,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
     - name: Run docker container
       run: docker compose up -d
 
