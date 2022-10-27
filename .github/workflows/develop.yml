@@ -7,21 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      db:
-        image: symdit/postgresql15-bigm
-        ports:
-          - '5433:5432'
-        volumes:
-          - ./script:/docker-entrypoint-initdb.d
-        env:
-          POSTGRES_USER: prisma
-          POSTGRES_PASSWORD: prisma
-          POSTGRES_DB: tests
-          PGDATA: /var/lib/postgresql/data/pgdata
-
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
     - uses: actions/checkout@v3
@@ -50,8 +35,14 @@ jobs:
         # Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.
         cache-dependency-path: # optional
 
+    - name: Make envfile
+      uses: SpicyPizza/create-envfile@v1.3
+      with:
+        envkey_DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
     - name: Test
       run: |
         npm install -g yarn
         yarn install
+        yarn up:db
         yarn test
