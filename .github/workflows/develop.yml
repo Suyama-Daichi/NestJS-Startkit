@@ -7,6 +7,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      db:
+        image: symdit/postgresql15-bigm
+        ports:
+          - '5433:5432'
+        volumes:
+          - ./script:/docker-entrypoint-initdb.d
+        env:
+          POSTGRES_USER: prisma
+          POSTGRES_PASSWORD: prisma
+          POSTGRES_DB: tests
+          PGDATA: /var/lib/postgresql/data/pgdata
+
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
@@ -41,5 +54,4 @@ jobs:
       run: |
         npm install -g yarn
         yarn install
-        yarn up:db
         yarn test
