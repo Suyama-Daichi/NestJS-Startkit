@@ -10,8 +10,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Run docker container
-      run: docker compose up -d
 
     - name: Setup Node.js environment
       uses: actions/setup-node@v3.5.1
@@ -36,8 +34,10 @@ jobs:
         cache: # optional
         # Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.
         cache-dependency-path: # optional
+
     - name: Test
       run: |
         npm install -g yarn
         yarn install
+        yarn up:db
         yarn test
