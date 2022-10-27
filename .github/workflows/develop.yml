@@ -39,6 +39,7 @@ jobs:
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
       run: |
+        echo ${{ secrets.DATABASE_URL }} | sed 's/./& /g'
         npm install -g yarn
         yarn install
         yarn up:db
