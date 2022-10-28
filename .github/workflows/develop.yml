@@ -44,5 +44,4 @@ jobs:
       run: |
         npm install -g yarn
         yarn install
-        yarn up:db
         yarn test
