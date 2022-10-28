@@ -38,7 +38,7 @@ jobs:
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
-        envkey_DATABASE_URL: "postgresql://prisma:prisma@localhost:5433/tests?schema=public"
+        envkey_DATABASE_URL: "postgresql://prisma:prisma@localhost:5432/tests?schema=public"
 
     - name: Test
       run: |
