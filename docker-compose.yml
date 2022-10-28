@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   db:
-    image: symdit/postgresql15-bigm
+    image: symdit/postgresql15-bigm:latest
     restart: always
     container_name: integration-tests
     ports:
