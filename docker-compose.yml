@@ -1,9 +1,15 @@
 version: "3.9"
 services:
+  app:
+    container_name: app
+    image: nestjs-startkit:latest
+    depends_on:
+      db:
+        condition: service_healthy
   db:
+    container_name: database
     image: symdit/postgresql15-bigm:latest
     restart: always
-    container_name: integration-tests
     ports:
       - '5432:5432'
     volumes:
@@ -13,3 +19,8 @@ services:
       POSTGRES_PASSWORD: prisma
       POSTGRES_DB: tests
       PGDATA: /var/lib/postgresql/data/pgdata
+    healthcheck:
+        test: ["CMD-SHELL", "pg_isready --username=prisma --dbname=tests"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
