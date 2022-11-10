@@ -60,31 +60,4 @@ jobs:
 
         - name: deploy to app runner
           run: |
-            aws apprunner update-service --service-arn ${{ secrets.APPRUNNER_SERVICE_ARN_DEVELOP }} \
-            --source-configuration '{
-                "AuthenticationConfiguration": {
-                    "ConnectionArn": "${{ secrets.APPRUNNER_CONNECTION_ARN }}"
-                },
-                "AutoDeploymentsEnabled": true,
-                "CodeRepository": {
-                    "RepositoryUrl": "https://github.com/Suyama-Daichi/NestJS-Startkit",
-                    "SourceCodeVersion": {
-                        "Type": "BRANCH",
-                        "Value": "feature/workflow"
-                    },
-                    "CodeConfiguration": {
-                        "ConfigurationSource": "API",
-                        "CodeConfigurationValues": {
-                            "Runtime": "NODEJS_16",
-                            "BuildCommand": "yarn install",
-                            "StartCommand": "yarn start:dev",
-                            "Port": "3000",
-                            "RuntimeEnvironmentVariables":
-                                {
-                                    "NODE_ENV": "develop",
-                                    "DATABASE_URL": "${{ secrets.DATABASE_URL_DEVELOP }}"
-                                }
-                        }
-                    }
-                }
-            }'
+            aws apprunner start-deployment --service-arn ${{ secrets.APPRUNNER_SERVICE_ARN_DEVELOP }}
