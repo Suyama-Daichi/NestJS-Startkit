@@ -57,7 +57,3 @@ jobs:
             aws-region: "ap-northeast-1"
             aws-access-key-id: ${{ secrets.APPRUNNER_ACCESS_KEY_ID }} #アクセスキー
             aws-secret-access-key: ${{ secrets.APPRUNNER_ACCESS_SECRET_KEY }} #シークレットキー
-
-        - name: deploy to app runner
-          run: |
-            aws apprunner start-deployment --service-arn ${{ secrets.APPRUNNER_SERVICE_ARN_DEVELOP }}
