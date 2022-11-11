@@ -57,3 +57,37 @@ jobs:
             aws-region: "ap-northeast-1"
             aws-access-key-id: ${{ secrets.APPRUNNER_ACCESS_KEY_ID }} #アクセスキー
             aws-secret-access-key: ${{ secrets.APPRUNNER_ACCESS_SECRET_KEY }} #シークレットキー
+
+        - name: Create AppRunner Service
+          env:
+            PR_NUMBER: ${{ github.event.number }}
+          run: |
+            aws apprunner create-service --service-name nestjs-startkit_$PR_NUMBER --source-configuration \
+              '{
+                "AuthenticationConfiguration": {
+                    "ConnectionArn": "${{ secrets.APPRUNNER_CONNECTION_ARN }}"
+                },
+                "AutoDeploymentsEnabled": true,
+                "CodeRepository": {
+                    "RepositoryUrl": "https://github.com/Suyama-Daichi/NestJS-Startkit",
+                    "SourceCodeVersion": {
+                        "Type": "BRANCH",
+                        "Value": "${{github.head_ref}}"
+                    },
+                    "CodeConfiguration": {
+                        "ConfigurationSource": "API",
+                        "CodeConfigurationValues": {
+                            "Runtime": "NODEJS_16",
+                            "BuildCommand": "yarn install && yarn build",
+                            "StartCommand": "yarn start:prod",
+                            "Port": "3000",
+                            "RuntimeEnvironmentVariables":
+                                {
+                                    "NODE_ENV": "production",
+                                    "DATABASE_URL": "${{ secrets.DATABASE_URL_DEVELOP }}"
+                                }
+                        }
+                    }
+                },
+                "AutoDeploymentsEnabled": false
+              }'
