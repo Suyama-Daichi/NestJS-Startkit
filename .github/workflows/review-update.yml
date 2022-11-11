@@ -60,13 +60,13 @@ jobs:
 
         - name: Get Service Arn
           id: get-service-arn
+          env:
+            PR_NUMBER: ${{ github.event.number }}
           run: |
-            SERVICE_ARN=aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"
+            SERVICE_ARN=`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"`
             echo "::set-output name=service-arn::$SERVICE_ARN"
 
 
         - name: Update AppRunner Service
-          env:
-            PR_NUMBER: ${{ github.event.number }}
           run: |
             aws apprunner start-deployment --service-arn ${{ steps.get-service-arn.outputs.service-arn }}
