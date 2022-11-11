@@ -1,4 +1,4 @@
-name: NestJS Testing CI
+name: Test & Deploy to develop
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - "develop"
 
 jobs:
-  build:
+  test:
     permissions:
       id-token: 'write'
     runs-on: ubuntu-latest
@@ -48,6 +48,7 @@ jobs:
         yarn install
         yarn test
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v3
