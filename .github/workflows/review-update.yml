@@ -61,6 +61,6 @@ jobs:
         - name: Update AppRunner Service
           env:
             PR_NUMBER: ${{ github.event.number }}
-            SERVICE_ARN: aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']" | jq -r '.[]["ServiceArn"]'
+            SERVICE_ARN: aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"
           run: |
             aws apprunner start-deployment --service-arn $SERVICE_ARN
