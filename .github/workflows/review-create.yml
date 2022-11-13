@@ -1,4 +1,4 @@
-name: NestJS Testing CI
+name: Create Review Service CI/CD
 
 on:
   pull_request:
