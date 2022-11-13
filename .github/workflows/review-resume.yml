@@ -8,7 +8,7 @@ jobs:
   resume-review-app:
     name: Resume Review App
     runs-on: ubuntu-latest
-    # if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/resume') }}
+    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/resume') }}
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -26,8 +26,8 @@ jobs:
     - name: Check Service Exist
       id: check-service-exist
       run: |
-        BRANCH_NAME=`gh pr view ${{ github.event.issue.number }} --json headRefName --jq '.headRefName'`
-        SERVICE_NAME=`echo "review-app_$BRANCH_NAME" | cut -c 1-40 | sed -e "s/[^a-zA-Z0-9_-]/-/g"`
+        PR_NUMBER=`gh pr view ${{ github.event.issue.number }}`
+        SERVICE_NAME=`echo "nestjs-startkit_$PR_NUMBER" | cut -c 1-40 | sed -e "s/[^a-zA-Z0-9_-]/-/g"`
         SERVICE_ARN=`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='$SERVICE_NAME'&&Status=='PAUSED']|[0].ServiceArn"`
         echo "::set-output name=service-arn::$SERVICE_ARN"
 
