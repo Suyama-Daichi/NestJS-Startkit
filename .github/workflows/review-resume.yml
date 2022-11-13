@@ -1,7 +1,7 @@
 name: Resume Review App
 
 on:
-  pull_request_review_comment:
+  issue_comment:
     types: [created, edited]
 
 jobs:
@@ -9,7 +9,7 @@ jobs:
     name: Resume Review App
     runs-on: ubuntu-latest
     environment: development
-    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/resume') }}
+    # if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/resume') }}
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
