@@ -62,3 +62,19 @@ jobs:
         - name: deploy to app runner
           run: |
             aws apprunner start-deployment --service-arn ${{ secrets.APPRUNNER_SERVICE_ARN_PRODUCTION }}
+  create-release:
+    needs: deploy
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: get-current-package-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
+      - name: create-release
+        run: |
+          gh release create v${{ steps.package-version.outputs.current-version}} --generate-notes
