@@ -1,12 +1,12 @@
-name: Test & Deploy to develop
+name: NestJS Testing CI
 
 on:
   push:
     branches:
-      - "develop"
+      - "main"
 
 jobs:
-  test:
+  build:
     permissions:
       id-token: 'write'
     runs-on: ubuntu-latest
@@ -48,7 +48,6 @@ jobs:
         yarn install
         yarn test
   deploy:
-    needs: test
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v3
@@ -62,4 +61,20 @@ jobs:
 
         - name: deploy to app runner
           run: |
-            aws apprunner start-deployment --service-arn ${{ secrets.APPRUNNER_SERVICE_ARN_DEVELOP }}
+            aws apprunner start-deployment --service-arn ${{ secrets.APPRUNNER_SERVICE_ARN_PRODUCTION }}
+  create-release:
+    needs: deploy
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: get-current-package-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
+      - name: create-release
+        run: |
+          gh release create v${{ steps.package-version.outputs.current-version}} --generate-notes
