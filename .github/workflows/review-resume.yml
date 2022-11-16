@@ -25,8 +25,9 @@ jobs:
 
     - name: Check Service Exist
       id: check-service-exist
+      env:
+        PR_NUMBER: ${{ github.event.issue.number }}
       run: |
-        PR_NUMBER=`gh pr view ${{ github.event.issue.number }}`
         SERVICE_NAME=`echo "nestjs-startkit_$PR_NUMBER" | cut -c 1-40 | sed -e "s/[^a-zA-Z0-9_-]/-/g"`
         SERVICE_ARN=`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='$SERVICE_NAME'&&Status=='PAUSED']|[0].ServiceArn"`
         echo "::set-output name=service-arn::$SERVICE_ARN"
@@ -35,4 +36,4 @@ jobs:
       id: resume-service
       if: ${{ steps.check-service-exist.outputs.service-arn }}
       run: |
-        aws resume-service --service-arn ${{ steps.check-service-exist.outputs.service-arn }}
+        aws apprunner resume-service --service-arn ${{ steps.check-service-exist.outputs.service-arn }}
