@@ -68,5 +68,6 @@ jobs:
 
 
         - name: Update AppRunner Service
+          if: ${{ steps.get-service-arn.outputs.service-arn }}
           run: |
             aws apprunner start-deployment --service-arn ${{ steps.get-service-arn.outputs.service-arn }}
