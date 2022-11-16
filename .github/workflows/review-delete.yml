@@ -6,7 +6,7 @@ on:
 
 jobs:
   delete:
-    if: ${{ github.event.label != null }}
+    if: ${{ github.event.label.name != null }}
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v3
