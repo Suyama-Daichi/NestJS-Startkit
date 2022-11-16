@@ -49,6 +49,7 @@ jobs:
         yarn test
   deploy:
     runs-on: ubuntu-latest
+    environment: production
     steps:
         - uses: actions/checkout@v3
 
@@ -61,7 +62,7 @@ jobs:
 
         - name: deploy to app runner
           run: |
-            aws apprunner start-deployment --service-arn ${{ secrets.APPRUNNER_SERVICE_ARN_PRODUCTION }}
+            aws apprunner start-deployment --service-arn ${{ secrets.APPRUNNER_SERVICE_ARN }}
   create-release:
     needs: deploy
     env:
