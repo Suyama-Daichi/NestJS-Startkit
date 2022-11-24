@@ -5115,7 +5115,7 @@ __metadata:
     eslint-plugin-prettier: ^4.0.0
     jest: 28.1.3
     prettier: ^2.3.2
-    prisma: latest
+    prisma: ^4.6.1
     reflect-metadata: ^0.1.13
     rimraf: ^3.0.2
     rxjs: ^7.2.0
@@ -5531,7 +5531,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:latest":
+"prisma@npm:^4.6.1":
   version: 4.6.1
   resolution: "prisma@npm:4.6.1"
   dependencies:
