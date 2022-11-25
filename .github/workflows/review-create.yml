@@ -64,7 +64,7 @@ jobs:
           env:
             PR_NUMBER: ${{ github.event.number }}
           run: |
-            aws apprunner create-service --service-name nestjs-startkit_$PR_NUMBER --source-configuration \
+            aws apprunner create-service --service-name ${{ github.event.repository.name }}_$PR_NUMBER --source-configuration \
               '{
                 "AuthenticationConfiguration": {
                     "ConnectionArn": "${{ secrets.APPRUNNER_CONNECTION_ARN }}"
