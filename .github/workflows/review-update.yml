@@ -66,8 +66,7 @@ jobs:
             SERVICE_ARN=`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"`
             echo "::set-output name=service-arn::$SERVICE_ARN"
 
-
         - name: Update AppRunner Service
-          if: ${{ steps.get-service-arn.outputs.service-arn }}
+          if: ${{ steps.get-service-arn.outputs.service-arn }} != null
           run: |
             aws apprunner start-deployment --service-arn ${{ steps.get-service-arn.outputs.service-arn }}
