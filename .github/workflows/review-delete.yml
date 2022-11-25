@@ -21,10 +21,11 @@ jobs:
           env:
             PR_NUMBER: ${{ github.event.number }}
           run: |
-            until [ startsWith(`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"`, arn:aws:apprunner)` ]; do
+            SERVICE_ARN=`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"`
+            until [ startsWith($SERVICE_ARN, arn:aws:apprunner)` ]; do
+              SERVICE_ARN=`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"`
               sleep 30
             done
-            SERVICE_ARN=`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"`
             echo "service-arn=$SERVICE_ARN" >> $GITHUB_OUTPUT
 
         - name: Delete AppRunner Service
