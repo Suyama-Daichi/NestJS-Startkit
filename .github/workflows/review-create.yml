@@ -71,7 +71,7 @@ jobs:
                 },
                 "AutoDeploymentsEnabled": true,
                 "CodeRepository": {
-                    "RepositoryUrl": "https://github.com/Suyama-Daichi/NestJS-Startkit",
+                    "RepositoryUrl": "${{ github.repositoryUrl }}",
                     "SourceCodeVersion": {
                         "Type": "BRANCH",
                         "Value": "${{github.head_ref}}"
