@@ -67,7 +67,7 @@ jobs:
             echo "service-arn=$SERVICE_ARN" >> $GITHUB_OUTPUT
 
         - name: Create AppRunner Service
-          if: ${{ !startsWith(steps.get-service-arn.outputs.service-arn, 'arn:aws:apprunner')} }
+          if: ${{ !startsWith(steps.get-service-arn.outputs.service-arn, 'arn:aws:apprunner') }}
           env:
             PR_NUMBER: ${{ github.event.number }}
           run: |
