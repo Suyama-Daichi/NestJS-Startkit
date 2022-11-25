@@ -71,7 +71,7 @@ jobs:
                 },
                 "AutoDeploymentsEnabled": true,
                 "CodeRepository": {
-                    "RepositoryUrl": "${{ github.repositoryUrl }}",
+                    "RepositoryUrl": "${{ github.server_url }}/${{ github.repository }}",
                     "SourceCodeVersion": {
                         "Type": "BRANCH",
                         "Value": "${{github.head_ref}}"
