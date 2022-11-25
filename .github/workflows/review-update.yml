@@ -67,6 +67,6 @@ jobs:
             echo "service-arn=$SERVICE_ARN" >> $GITHUB_OUTPUT
 
         - name: Update AppRunner Service
-          if: false
+          if: startsWith(steps.get-service-arn.outputs.service-arn, 'arn:aws:apprunner')
           run: |
             aws apprunner start-deployment --service-arn ${{ steps.get-service-arn.outputs.service-arn }}
