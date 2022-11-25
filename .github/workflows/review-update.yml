@@ -66,41 +66,6 @@ jobs:
             SERVICE_ARN=`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"`
             echo "service-arn=$SERVICE_ARN" >> $GITHUB_OUTPUT
 
-        - name: Create AppRunner Service
-          if: ${{ !startsWith(steps.get-service-arn.outputs.service-arn, 'arn:aws:apprunner') }}
-          env:
-            PR_NUMBER: ${{ github.event.number }}
-          run: |
-            aws apprunner create-service --service-name nestjs-startkit_$PR_NUMBER --source-configuration \
-              '{
-                "AuthenticationConfiguration": {
-                    "ConnectionArn": "${{ secrets.APPRUNNER_CONNECTION_ARN }}"
-                },
-                "AutoDeploymentsEnabled": true,
-                "CodeRepository": {
-                    "RepositoryUrl": "https://github.com/Suyama-Daichi/NestJS-Startkit",
-                    "SourceCodeVersion": {
-                        "Type": "BRANCH",
-                        "Value": "${{github.head_ref}}"
-                    },
-                    "CodeConfiguration": {
-                        "ConfigurationSource": "API",
-                        "CodeConfigurationValues": {
-                            "Runtime": "NODEJS_16",
-                            "BuildCommand": "yarn install && yarn build",
-                            "StartCommand": "yarn start:prod",
-                            "Port": "3000",
-                            "RuntimeEnvironmentVariables":
-                                {
-                                    "NODE_ENV": "production",
-                                    "DATABASE_URL": "${{ secrets.DATABASE_URL }}"
-                                }
-                        }
-                    }
-                },
-                "AutoDeploymentsEnabled": false
-              }'
-
         - name: Update AppRunner Service
           if: startsWith(steps.get-service-arn.outputs.service-arn, 'arn:aws:apprunner')
           run: |
