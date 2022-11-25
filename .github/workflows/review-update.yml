@@ -67,6 +67,6 @@ jobs:
             echo "::set-output name=service-arn::$SERVICE_ARN"
 
         - name: Update AppRunner Service
-          if: ${{ steps.get-service-arn.outputs.service-arn }} !== null
+          if: ${{ steps.get-service-arn.outputs.service-arn }} !== "null"
           run: |
             aws apprunner start-deployment --service-arn ${{ steps.get-service-arn.outputs.service-arn }}
