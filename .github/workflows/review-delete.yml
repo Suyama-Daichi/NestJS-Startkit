@@ -21,6 +21,9 @@ jobs:
           env:
             PR_NUMBER: ${{ github.event.number }}
           run: |
+            until [ startsWith(`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"`, arn:aws:apprunner)` ]; do
+              sleep 30
+            done
             SERVICE_ARN=`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='nestjs-startkit_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"`
             echo "::set-output name=service-arn::$SERVICE_ARN"
 
