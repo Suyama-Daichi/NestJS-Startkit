@@ -28,6 +28,6 @@ jobs:
             echo "service-arn=$SERVICE_ARN" >> $GITHUB_OUTPUT
 
         - name: Delete AppRunner Service
-          if: ${{ steps.get-service-arn.outputs.service-arn }}
+          if: startsWith(steps.get-service-arn.outputs.service-arn, 'arn:aws:apprunner')
           run: |
             aws apprunner delete-service --service-arn ${{ steps.get-service-arn.outputs.service-arn }}
