@@ -8,6 +8,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { RegisterRequestDto } from '@/dto/register.request.dto';
 import { AuthenticateRequestDto } from '@/dto/authenticate.request.dto';
+import { VerifyCodeRequestDto } from '@/dto/verifyCode.request.dto';
 
 @Injectable()
 export class AuthService {
@@ -34,6 +35,25 @@ export class AuthService {
           } else {
             resolve(result.user);
           }
+        },
+      );
+    });
+  }
+
+  async verifyEmail(user: VerifyCodeRequestDto) {
+    const { name, code } = user;
+    const userData = {
+      Username: name,
+      Pool: this.userPool,
+    };
+    const cognitoUser = new CognitoUser(userData);
+    return new Promise((resolve, reject) => {
+      return cognitoUser.confirmRegistration(
+        code.toString(),
+        true,
+        function (error, result) {
+          if (error) reject(error);
+          resolve(result);
         },
       );
     });
