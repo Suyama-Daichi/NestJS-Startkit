@@ -11,6 +11,7 @@ module.exports = async () => {
     coverageDirectory: '../coverage',
     testEnvironment: 'node',
     moduleNameMapper: {
+      '@/(.*)': '<rootDir>/src/$1',
       '@common/(.*)': '<rootDir>/src/common/$1',
       '@services/(.*)': '<rootDir>/src/services/$1',
       '@controllers/(.*)': '<rootDir>/src/controllers/$1',

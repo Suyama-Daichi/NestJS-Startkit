@@ -1,5 +1,7 @@
+import { AuthService } from '@/services/auth.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from '../../src/controllers/auth.controller';
+import { ConfigService } from '@nestjs/config';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -7,6 +9,7 @@ describe('AuthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
+      providers: [AuthService, ConfigService],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
