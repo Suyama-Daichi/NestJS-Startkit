@@ -1,5 +1,6 @@
 module.exports = async () => {
   return {
+    setupFiles: ['<rootDir>/test/dotenv-config.js'],
     moduleFileExtensions: ['js', 'json', 'ts'],
     rootDir: '.',
     testRegex: '.*\\.spec\\.ts$',
