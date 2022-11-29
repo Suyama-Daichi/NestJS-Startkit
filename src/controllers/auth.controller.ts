@@ -1,4 +1,5 @@
 import { AuthenticateRequestDto } from '@/dto/authenticate.request.dto';
+import { ChangePasswordRequestDto } from '@/dto/changePassword.request.dto';
 import { RegisterRequestDto } from '@/dto/register.request.dto';
 import { VerifyCodeRequestDto } from '@/dto/verifyCode.request.dto';
 import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
@@ -21,6 +22,15 @@ export class AuthController {
   async verify(@Body() verifyRequest: VerifyCodeRequestDto) {
     try {
       return await this.authService.verifyEmail(verifyRequest);
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  @Post('changePassword')
+  async changePassword(@Body() user: ChangePasswordRequestDto) {
+    try {
+      return await this.authService.changePassword(user);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
