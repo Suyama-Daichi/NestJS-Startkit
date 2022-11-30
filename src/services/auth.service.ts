@@ -115,6 +115,25 @@ export class AuthService {
     });
   }
 
+  async resetPassword(user: ForgotPasswordRequestDto) {
+    const { name, code, password } = user;
+    const userData = {
+      Username: name,
+      Pool: this.userPool,
+    };
+    const cognitoUser = new CognitoUser(userData);
+    return new Promise((resolve, reject) => {
+      cognitoUser.confirmPassword(code.toString(), password, {
+        onSuccess: (result) => {
+          resolve(result);
+        },
+        onFailure: (err) => {
+          reject(err);
+        },
+      });
+    });
+  }
+
   async authenticate(user: AuthenticateRequestDto) {
     const { name, password } = user;
     const authenticationDetails = new AuthenticationDetails({

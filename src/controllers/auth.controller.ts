@@ -1,5 +1,6 @@
 import { AuthenticateRequestDto } from '@/dto/authenticate.request.dto';
 import { ChangePasswordRequestDto } from '@/dto/changePassword.request.dto';
+import { ForgotPasswordRequestDto } from '@/dto/forgotPassword.dto';
 import { RegisterRequestDto } from '@/dto/register.request.dto';
 import { VerifyCodeRequestDto } from '@/dto/verifyCode.request.dto';
 import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
@@ -37,9 +38,18 @@ export class AuthController {
   }
 
   @Post('forgot-password')
-  async forgotPassword(@Body() user: ChangePasswordRequestDto) {
+  async forgotPassword(@Body() user: ForgotPasswordRequestDto) {
     try {
       return await this.authService.forgotPassword(user);
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() user: ForgotPasswordRequestDto) {
+    try {
+      return await this.authService.resetPassword(user);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
