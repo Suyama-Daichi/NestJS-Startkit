@@ -10,7 +10,7 @@ import { RegisterRequestDto } from '@/dto/register.request.dto';
 import { AuthenticateRequestDto } from '@/dto/authenticate.request.dto';
 import { VerifyCodeRequestDto } from '@/dto/verifyCode.request.dto';
 import { ChangePasswordRequestDto } from '@/dto/changePassword.request.dto';
-
+import { fetchListUsers } from '@/helpers/utils.helper';
 @Injectable()
 export class AuthService {
   private userPool: CognitoUserPool;
@@ -24,6 +24,10 @@ export class AuthService {
 
   async register(authRegisterRequest: RegisterRequestDto) {
     const { name, email, password } = authRegisterRequest;
+    // メールアドレスの重複がないかチェックする
+    const existedUser = await fetchListUsers(email);
+    if (existedUser.length > 0) throw new Error('The email is duplicated.');
+
     return new Promise((resolve, reject) => {
       return this.userPool.signUp(
         name,
