@@ -11,6 +11,8 @@ import { AuthenticateRequestDto } from '@/dto/authenticate.request.dto';
 import { VerifyCodeRequestDto } from '@/dto/verifyCode.request.dto';
 import { ChangePasswordRequestDto } from '@/dto/changePassword.request.dto';
 import { fetchListUsers } from '@/helpers/utils.helper';
+import { ForgotPasswordRequestDto } from '@/dto/forgotPassword.dto';
+
 @Injectable()
 export class AuthService {
   private userPool: CognitoUserPool;
@@ -86,6 +88,25 @@ export class AuthService {
               resolve(result);
             },
           );
+        },
+        onFailure: (err) => {
+          reject(err);
+        },
+      });
+    });
+  }
+
+  async forgotPassword(user: ForgotPasswordRequestDto) {
+    const { name } = user;
+    const userData = {
+      Username: name,
+      Pool: this.userPool,
+    };
+    const cognitoUser = new CognitoUser(userData);
+    return new Promise((resolve, reject) => {
+      cognitoUser.forgotPassword({
+        onSuccess: (result) => {
+          resolve(result);
         },
         onFailure: (err) => {
           reject(err);

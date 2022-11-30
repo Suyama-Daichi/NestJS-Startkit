@@ -36,6 +36,15 @@ export class AuthController {
     }
   }
 
+  @Post('forgot-password')
+  async forgotPassword(@Body() user: ChangePasswordRequestDto) {
+    try {
+      return await this.authService.forgotPassword(user);
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
   @Post('authenticate')
   async authenticate(@Body() authenticateRequest: AuthenticateRequestDto) {
     try {
