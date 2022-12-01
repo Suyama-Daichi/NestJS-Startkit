@@ -26,6 +26,6 @@ jobs:
             echo ${{ steps.get-service-arn.outputs.service-arn }}
 
         - name: Delete AppRunner Service
-          if: ${{ startsWith(steps.get-service-arn.outputs.service-arn, 'arn:aws:apprunner') }}
+          if: ${{ startsWith(steps.get-service-arn.outputs.service-arn, '"arn:aws:apprunner') }}
           run: |
             aws apprunner delete-service --service-arn ${{ steps.get-service-arn.outputs.service-arn }}
