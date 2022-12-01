@@ -10,6 +10,7 @@ jobs:
     permissions:
       id-token: 'write'
     runs-on: ubuntu-latest
+    environment: test
     steps:
     - uses: actions/checkout@v3
 
@@ -41,6 +42,8 @@ jobs:
       uses: SpicyPizza/create-envfile@v1.3
       with:
         envkey_DATABASE_URL: "postgresql://prisma:prisma@localhost:5432/tests"
+        envkey_COGNITO_CLIENT_ID: ${{ secrets.COGNITO_CLIENT_ID }}
+        envkey_COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
 
     - name: Test
       run: |
@@ -64,6 +67,7 @@ jobs:
         - name: deploy to app runner
           run: |
             aws apprunner start-deployment --service-arn ${{ secrets.APPRUNNER_SERVICE_ARN }}
+
   create-release:
     needs: deploy
     env:
