@@ -15,6 +15,7 @@ module.exports = async () => {
       '@common/(.*)': '<rootDir>/src/common/$1',
       '@services/(.*)': '<rootDir>/src/services/$1',
       '@controllers/(.*)': '<rootDir>/src/controllers/$1',
+      '#node-web-compat': './node-web-compat-node.js',
     },
   };
 };
