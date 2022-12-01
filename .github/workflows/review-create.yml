@@ -39,6 +39,7 @@ jobs:
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
+        file_name: '.env.test'
         envkey_DATABASE_URL: "postgresql://prisma:prisma@localhost:5432/tests"
         envkey_COGNITO_CLIENT_ID: ${{ secrets.COGNITO_CLIENT_ID }}
         envkey_COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
