@@ -2,12 +2,13 @@ name: Create Review Service CI/CD
 
 on:
   pull_request:
-    types: [ labeled ]
+    types: [ labeled, ready_for_review ]
 
 jobs:
   build:
     if: ${{ github.base_ref != 'main' }}
     runs-on: ubuntu-latest
+    environment: test
     steps:
     - uses: actions/checkout@v3
 
@@ -38,7 +39,10 @@ jobs:
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
+        file_name: '.env.test'
         envkey_DATABASE_URL: "postgresql://prisma:prisma@localhost:5432/tests"
+        envkey_COGNITO_CLIENT_ID: ${{ secrets.COGNITO_CLIENT_ID }}
+        envkey_COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
 
     - name: Test
       run: |
@@ -69,7 +73,7 @@ jobs:
                 "AuthenticationConfiguration": {
                     "ConnectionArn": "${{ secrets.APPRUNNER_CONNECTION_ARN }}"
                 },
-                "AutoDeploymentsEnabled": true,
+                "AutoDeploymentsEnabled": false,
                 "CodeRepository": {
                     "RepositoryUrl": "${{ github.server_url }}/${{ github.repository }}",
                     "SourceCodeVersion": {
@@ -86,10 +90,11 @@ jobs:
                             "RuntimeEnvironmentVariables":
                                 {
                                     "NODE_ENV": "production",
-                                    "DATABASE_URL": "${{ secrets.DATABASE_URL }}"
+                                    "DATABASE_URL": "${{ secrets.DATABASE_URL }}",
+                                    "COGNITO_USER_POOL_ID": "${{ secrets.COGNITO_USER_POOL_ID }}",
+                                    "COGNITO_CLIENT_ID": "${{ secrets.COGNITO_CLIENT_ID }}"
                                 }
                         }
                     }
-                },
-                "AutoDeploymentsEnabled": false
+                }
               }'

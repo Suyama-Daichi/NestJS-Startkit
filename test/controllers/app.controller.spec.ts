@@ -16,14 +16,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    // it('should return "Hello World!"', () => {
-    //   expect(appController.getHello()).toBe('Hello World!');
-    // });
-
-    it('should return users', async () => {
-      expect(await appController.getHello()).toEqual(
-        expect.arrayContaining([expect.objectContaining({ id: 1 })]),
-      );
+    it('should return "Hello World!"', async () => {
+      expect(await appController.getHello()).toBe('Hello World!');
     });
   });
 });

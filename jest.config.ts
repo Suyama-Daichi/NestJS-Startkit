@@ -1,5 +1,6 @@
 module.exports = async () => {
   return {
+    setupFiles: ['<rootDir>/test/dotenv-config.ts'],
     moduleFileExtensions: ['js', 'json', 'ts'],
     rootDir: '.',
     testRegex: '.*\\.spec\\.ts$',
@@ -10,9 +11,11 @@ module.exports = async () => {
     coverageDirectory: '../coverage',
     testEnvironment: 'node',
     moduleNameMapper: {
+      '@/(.*)': '<rootDir>/src/$1',
       '@common/(.*)': '<rootDir>/src/common/$1',
       '@services/(.*)': '<rootDir>/src/services/$1',
       '@controllers/(.*)': '<rootDir>/src/controllers/$1',
+      '#node-web-compat': './node-web-compat-node.js',
     },
   };
 };
