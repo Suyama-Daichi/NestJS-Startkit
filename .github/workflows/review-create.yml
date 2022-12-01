@@ -73,7 +73,7 @@ jobs:
                 "AuthenticationConfiguration": {
                     "ConnectionArn": "${{ secrets.APPRUNNER_CONNECTION_ARN }}"
                 },
-                "AutoDeploymentsEnabled": true,
+                "AutoDeploymentsEnabled": false
                 "CodeRepository": {
                     "RepositoryUrl": "${{ github.server_url }}/${{ github.repository }}",
                     "SourceCodeVersion": {
@@ -97,5 +97,4 @@ jobs:
                         }
                     }
                 },
-                "AutoDeploymentsEnabled": false
               }'
