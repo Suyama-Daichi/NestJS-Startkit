@@ -23,6 +23,8 @@ jobs:
           run: |
             SERVICE_ARN=`aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='${{ github.event.repository.name }}_$PR_NUMBER'&&Status=='RUNNING']|[0].ServiceArn"`
             echo "service-arn=$SERVICE_ARN" >> $GITHUB_OUTPUT
+            echo steps.get-service-arn.outputs.service-arn
+            echo ${{ github.event.repository.name }}_$PR_NUMBER
 
         - name: Delete AppRunner Service
           if: startsWith(steps.get-service-arn.outputs.service-arn, 'arn:aws:apprunner')
