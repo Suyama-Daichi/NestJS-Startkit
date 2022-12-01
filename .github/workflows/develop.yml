@@ -62,8 +62,8 @@ jobs:
           uses: aws-actions/configure-aws-credentials@v1
           with:
             aws-region: "ap-northeast-1"
-            aws-access-key-id: ${{ secrets.APPRUNNER_ACCESS_KEY_ID }} #アクセスキー
-            aws-secret-access-key: ${{ secrets.APPRUNNER_ACCESS_SECRET_KEY }} #シークレットキー
+            aws-access-key-id: ${{ secrets.APPRUNNER_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.APPRUNNER_ACCESS_SECRET_KEY }}
 
         - name: deploy to app runner
           run: |
