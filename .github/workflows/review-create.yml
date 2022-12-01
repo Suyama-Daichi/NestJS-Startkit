@@ -91,8 +91,8 @@ jobs:
                                 {
                                     "NODE_ENV": "production",
                                     "DATABASE_URL": "${{ secrets.DATABASE_URL }}",
-                                    "COGNITO_USER_POOL_ID": ${{ secrets.COGNITO_USER_POOL_ID }},
-                                    "COGNITO_CLIENT_ID": ${{ secrets.COGNITO_CLIENT_ID }}
+                                    "COGNITO_USER_POOL_ID": "${{ secrets.COGNITO_USER_POOL_ID }}",
+                                    "COGNITO_CLIENT_ID": "${{ secrets.COGNITO_CLIENT_ID }}"
                                 }
                         }
                     }
