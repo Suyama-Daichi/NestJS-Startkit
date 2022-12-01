@@ -10,6 +10,7 @@ jobs:
     permissions:
       id-token: 'write'
     runs-on: ubuntu-latest
+    environment: test
     steps:
     - uses: actions/checkout@v3
 
@@ -40,7 +41,10 @@ jobs:
     - name: Make envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
+        file_name: '.env.test'
         envkey_DATABASE_URL: "postgresql://prisma:prisma@localhost:5432/tests"
+        envkey_COGNITO_CLIENT_ID: ${{ secrets.COGNITO_CLIENT_ID }}
+        envkey_COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
 
     - name: Test
       run: |
@@ -58,8 +62,8 @@ jobs:
           uses: aws-actions/configure-aws-credentials@v1
           with:
             aws-region: "ap-northeast-1"
-            aws-access-key-id: ${{ secrets.APPRUNNER_ACCESS_KEY_ID }} #アクセスキー
-            aws-secret-access-key: ${{ secrets.APPRUNNER_ACCESS_SECRET_KEY }} #シークレットキー
+            aws-access-key-id: ${{ secrets.APPRUNNER_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.APPRUNNER_ACCESS_SECRET_KEY }}
 
         - name: deploy to app runner
           run: |
