@@ -12,6 +12,8 @@ import { VerifyCodeRequestDto } from '@/dto/verifyCode.request.dto';
 import { ChangePasswordRequestDto } from '@/dto/changePassword.request.dto';
 import { fetchListUsers } from '@/helpers/utils.helper';
 import { ForgotPasswordRequestDto } from '@/dto/forgotPassword.dto';
+import { CognitoJwtVerifier } from 'aws-jwt-verify';
+import { VerifyIdTokenDto } from '@/dto/verifyIdToken.request.dto';
 
 @Injectable()
 export class AuthService {
@@ -155,5 +157,21 @@ export class AuthService {
         },
       });
     });
+  }
+
+  async verifyAccessToken(userReq: VerifyIdTokenDto) {
+    const jwtVerifier = CognitoJwtVerifier.create({
+      userPoolId: process.env.COGNITO_USER_POOL_ID,
+      tokenUse: 'access',
+      clientId: process.env.COGNITO_CLIENT_ID,
+      scope: 'aws.cognito.signin.user.admin',
+    });
+
+    try {
+      const result = await jwtVerifier.verify(userReq.accessToken);
+      return !!result;
+    } catch (error) {
+      return false;
+    }
   }
 }

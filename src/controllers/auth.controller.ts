@@ -3,7 +3,14 @@ import { ChangePasswordRequestDto } from '@/dto/changePassword.request.dto';
 import { ForgotPasswordRequestDto } from '@/dto/forgotPassword.dto';
 import { RegisterRequestDto } from '@/dto/register.request.dto';
 import { VerifyCodeRequestDto } from '@/dto/verifyCode.request.dto';
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import { VerifyIdTokenDto } from '@/dto/verifyIdToken.request.dto';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+} from '@nestjs/common';
 import { AuthService } from '@services/auth.service';
 
 @Controller('auth')
@@ -59,6 +66,16 @@ export class AuthController {
   async authenticate(@Body() authenticateRequest: AuthenticateRequestDto) {
     try {
       return await this.authService.authenticate(authenticateRequest);
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
+  }
+
+  @HttpCode(200)
+  @Post('verify-access-token')
+  async verifyIdToken(@Body() body: VerifyIdTokenDto) {
+    try {
+      return await this.authService.verifyAccessToken(body);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
