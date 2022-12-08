@@ -155,6 +155,16 @@ export class AuthService {
         onFailure: (err) => {
           reject(err);
         },
+        newPasswordRequired: (userAttributes, requiredAttributes) => {
+          newUser.completeNewPasswordChallenge(password, requiredAttributes, {
+            onSuccess: function (result) {
+              resolve(result);
+            },
+            onFailure: function (error) {
+              reject(error);
+            },
+          });
+        },
       });
     });
   }
