@@ -31,20 +31,19 @@
                <div class="content getting-started">
                    <div class="content-data">
 
-<h1 id="機能">機能</h1>
-<h2 id="認証基盤">認証基盤</h2>
+<h1 id="q-これは何？">Q. これは何？</h1>
+<p>A. NestJSのバックエンドテンプレートリポジトリです。</p>
+<h1 id="q-ユースケースは？">Q. ユースケースは？</h1>
+<p>ログイン機能を必要とするアプリケーションに必要なAPIが実装されています。詳しくは<a href="https://suyama-daichi.github.io/NestJS-Startkit/controllers/AuthController.html">こちら</a>をご覧ください。</p>
+<p>また、Prismaのセットアップが済んでいますので、データベースとの接続・連携も可能です。</p>
+<h1 id="データベースについて">データベースについて</h1>
 <ul>
-<li>新規登録 (<code>POST: /register</code>)</li>
-<li>メールアドレスの確認 (<code>POST: /verify</code>)</li>
-<li>ログイン (<code>POST: /authenticate</code>)</li>
-<li>パスワードの変更 (<code>POST: /change-password</code>)</li>
-<li>パスワードの再設定<ul>
-<li>パスワードリセットコードを送信 (<code>POST: /forgot-password</code>)</li>
-<li>パスワードのリセット (<code>POST: /reset-password</code>)</li>
+<li><code>yarn up:db</code> でデータベースコンテナを起動できます。</li>
+<li><code>prisma/seeds</code>配下にシードファイルを用意し<code>yarn seed</code>コマンドを実行することで、事前にデータをInsertできます。</li>
 </ul>
-</li>
-</ul>
-
+<h1 id="how-to-develop">How to develop</h1>
+<div><pre class="line-numbers"><code class="language-bash">yarn install
+yarn start:dev</code></pre></div>
 
 
 

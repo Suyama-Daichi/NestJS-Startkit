@@ -8,6 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "yarn prisma generate && nest build",
+    "generate:doc": "compodoc -p tsconfig.json -d ./docs",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "seed": "yarn prisma migrate dev && yarn prisma db seed",
     "up:db": "docker compose up db -d && sleep 3 && dotenv -e .env.test -- yarn seed",
@@ -39,6 +40,7 @@
     "rxjs": "^7.2.0"
   },
   "devDependencies": {
+    "@compodoc/compodoc": "^1.1.19",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
