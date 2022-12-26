@@ -33,7 +33,9 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Build 'docs'
-        run: npm run generate:doc
+        run: |
+          npm install -g @compodoc/compodoc
+          npm run generate:doc
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
