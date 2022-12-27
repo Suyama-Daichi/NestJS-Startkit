@@ -1,15 +1,18 @@
-import { AuthenticateRequestDto } from '@/dto/authenticate.request.dto';
-import { ChangePasswordRequestDto } from '@/dto/changePassword.request.dto';
-import { ForgotPasswordRequestDto } from '@/dto/forgotPassword.dto';
-import { RegisterRequestDto } from '@/dto/register.request.dto';
-import { VerifyCodeRequestDto } from '@/dto/verifyCode.request.dto';
-import { VerifyIdTokenDto } from '@/dto/verifyIdToken.request.dto';
+import { AuthenticateRequestDto } from '@/dto/auth/authenticate.request.dto';
+import { ChangePasswordRequestDto } from '@/dto/auth/changePassword.request.dto';
+import { ForgotPasswordRequestDto } from '@/dto/auth/forgotPassword.dto';
+import { GetAccessTokenDto } from '@/dto/auth/getAccessToken.request.dto';
+import { RegisterRequestDto } from '@/dto/auth/register.request.dto';
+import { ResetPasswordRequestDto } from '@/dto/auth/resetPassword.dto';
+import { VerifyCodeRequestDto } from '@/dto/auth/verifyCode.request.dto';
+import { VerifyAccessTokenDto } from '@/dto/auth/verifyIdToken.request.dto';
 import {
   BadRequestException,
   Body,
   Controller,
   HttpCode,
   Post,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from '@services/auth.service';
 
@@ -54,7 +57,7 @@ export class AuthController {
   }
 
   @Post('reset-password')
-  async resetPassword(@Body() user: ForgotPasswordRequestDto) {
+  async resetPassword(@Body() user: ResetPasswordRequestDto) {
     try {
       return await this.authService.resetPassword(user);
     } catch (e) {
@@ -73,11 +76,15 @@ export class AuthController {
 
   @HttpCode(200)
   @Post('verify-access-token')
-  async verifyIdToken(@Body() body: VerifyIdTokenDto) {
-    try {
-      return await this.authService.verifyAccessToken(body);
-    } catch (e) {
-      throw new BadRequestException(e.message);
-    }
+  async verifyIdToken(@Body() body: VerifyAccessTokenDto) {
+    const result = await this.authService.verifyAccessToken(body);
+    if (!result) throw new UnauthorizedException();
+    return result;
+  }
+
+  @HttpCode(200)
+  @Post('token')
+  async getNewToken(@Body() body: GetAccessTokenDto) {
+    return await this.authService.getNewToken(body);
   }
 }

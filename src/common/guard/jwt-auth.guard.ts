@@ -1,6 +1,12 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CognitoJwtVerifier } from 'aws-jwt-verify';
 
+/** ヘッダーのauthorizationトークンを検証する */
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
   private jwtVerifier = CognitoJwtVerifier.create({
@@ -17,7 +23,8 @@ export class JwtAuthGuard implements CanActivate {
       );
       return !!result;
     } catch (error) {
-      return false;
+      console.error(error);
+      throw new UnauthorizedException(undefined, error.message);
     }
   }
 }

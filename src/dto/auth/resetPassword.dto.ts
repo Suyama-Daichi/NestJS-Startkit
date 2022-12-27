@@ -1,6 +1,6 @@
 import { IsNumber, IsString, Matches, MinLength } from 'class-validator';
 
-export class ForgotPasswordRequestDto {
+export class ResetPasswordRequestDto {
   /** name or Email */
   @IsString()
   name: string;

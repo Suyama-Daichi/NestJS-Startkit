@@ -5,11 +5,9 @@ export const createUserSeed = async () => {
     data: [
       {
         email: 'alice@prisma.io',
-        name: 'Alice',
       },
       {
         email: 'bob@prisma.io',
-        name: 'Bob',
       },
     ],
   });
