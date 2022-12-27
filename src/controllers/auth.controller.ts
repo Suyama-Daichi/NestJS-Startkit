@@ -20,51 +20,75 @@ import { AuthService } from '@services/auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  /**
+   * 新規登録
+   * @param body 新規登録に必要なパラメータ
+   */
   @Post('register')
-  async register(@Body() registerRequest: RegisterRequestDto) {
+  async register(@Body() body: RegisterRequestDto) {
     try {
-      return await this.authService.register(registerRequest);
+      return await this.authService.register(body);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
   }
 
+  /**
+   * コード認証
+   * @param body コード認証に必要なパラメータ
+   */
   @Post('verify')
-  async verify(@Body() verifyRequest: VerifyCodeRequestDto) {
+  async verify(@Body() body: VerifyCodeRequestDto) {
     try {
-      return await this.authService.verifyEmail(verifyRequest);
+      return await this.authService.verifyEmail(body);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
   }
 
+  /**
+   * パスワードの変更
+   * @param body パスワード変更に必要なパラメータ
+   */
   @Post('change-password')
-  async changePassword(@Body() user: ChangePasswordRequestDto) {
+  async changePassword(@Body() body: ChangePasswordRequestDto) {
     try {
-      return await this.authService.changePassword(user);
+      return await this.authService.changePassword(body);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
   }
 
+  /**
+   * パスワードを忘れた時
+   * @param body パスワードの再設定を開始するときのパラメータ
+   */
   @Post('forgot-password')
-  async forgotPassword(@Body() user: ForgotPasswordRequestDto) {
+  async forgotPassword(@Body() body: ForgotPasswordRequestDto) {
     try {
-      return await this.authService.forgotPassword(user);
+      return await this.authService.forgotPassword(body);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
   }
 
+  /**
+   * パスワードを再設定する
+   * @param body パスワードを再設定するときのパラメータ
+   */
   @Post('reset-password')
-  async resetPassword(@Body() user: ResetPasswordRequestDto) {
+  async resetPassword(@Body() body: ResetPasswordRequestDto) {
     try {
-      return await this.authService.resetPassword(user);
+      return await this.authService.resetPassword(body);
     } catch (e) {
       throw new BadRequestException(e.message);
     }
   }
 
+  /**
+   * ログイン
+   * @param authenticateRequest ログインに必要なパラメータ
+   */
   @Post('authenticate')
   async authenticate(@Body() authenticateRequest: AuthenticateRequestDto) {
     try {
@@ -74,6 +98,11 @@ export class AuthController {
     }
   }
 
+  /**
+   * アクセストークンを検証する
+   * @param body アクセストークンを検証するためのパラメータ
+   * @returns true
+   */
   @HttpCode(200)
   @Post('verify-access-token')
   async verifyIdToken(@Body() body: VerifyAccessTokenDto) {
@@ -82,6 +111,10 @@ export class AuthController {
     return result;
   }
 
+  /**
+   * トークンを更新する
+   * @param body トークンを更新するためのパラメータ
+   */
   @HttpCode(200)
   @Post('token')
   async getNewToken(@Body() body: GetAccessTokenDto) {

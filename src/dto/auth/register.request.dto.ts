@@ -6,6 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 
+/** 新規登録に必要なパラメータ */
 export class RegisterRequestDto {
   @IsEmail()
   email: string;

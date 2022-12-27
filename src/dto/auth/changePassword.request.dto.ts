@@ -1,5 +1,6 @@
 import { IsString, Matches, MinLength } from 'class-validator';
 
+/** パスワード変更に必要なパラメータ */
 export class ChangePasswordRequestDto {
   /** name or Email */
   @IsString()

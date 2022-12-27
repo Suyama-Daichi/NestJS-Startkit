@@ -1,5 +1,6 @@
 import { IsNumber, IsString, Matches, MinLength } from 'class-validator';
 
+/** パスワードを再設定するときのパラメータ */
 export class ResetPasswordRequestDto {
   /** name or Email */
   @IsString()
