@@ -7,7 +7,7 @@ services:
       db:
         condition: service_healthy
   db:
-    container_name: database
+    container_name: database-startkit
     image: symdit/postgresql15-bigm:latest
     restart: always
     ports:
